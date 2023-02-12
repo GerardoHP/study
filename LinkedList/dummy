@@ -1,0 +1,40 @@
+// Singly-linked lists are already defined with this interface:
+// type ListNode struct {
+//   Value interface{}
+//   Next *ListNode
+// }
+//
+
+import "math"
+
+func solution(l *ListNode) bool {
+    max := math.MaxInt
+    for l != nil {
+        i := 0
+        fake := l
+        for fake != nil && max > 1{
+            if  i == max - 2 || fake.Next == nil{
+                max = i
+
+                if fake.Value != l.Value{
+                    return false
+                }
+
+                if fake.Next != nil{
+                    break
+                }
+            }
+
+            fake = fake.Next
+            i++
+        }
+
+        l = l.Next
+    }
+
+    return true
+}
+
+
+
+
