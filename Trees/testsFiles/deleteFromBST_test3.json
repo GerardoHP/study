@@ -1,0 +1,15 @@
+{
+  "input": {
+    "t": {
+      "value": 3,
+      "left": {
+        "value": 2,
+        "left": null,
+        "right": null
+      },
+      "right": null
+    },
+    "queries":[1, 2, 3, 5]
+  },
+  "output": null
+}

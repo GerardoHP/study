@@ -1,0 +1,56 @@
+{
+  "test": 1,
+  "input": {
+    "t": {
+      "value": 5,
+      "left": {
+        "value": 2,
+        "left": {
+          "value": 1,
+          "left": null,
+          "right": null
+        },
+        "right": {
+          "value": 3,
+          "left": null,
+          "right": null
+        }
+      },
+      "right": {
+        "value": 6,
+        "left": null,
+        "right": {
+          "value": 8,
+          "left": {
+            "value": 7,
+            "left": null,
+            "right": null
+          },
+          "right": null
+        }
+      }
+    },
+    "queries":[4, 5, 6]
+  },
+  "output": {
+    "value": 3,
+    "left": {
+      "value": 2,
+      "left": {
+        "value": 1,
+        "left": null,
+        "right": null
+      },
+      "right": null
+    },
+    "right": {
+      "value": 8,
+      "left": {
+        "value": 7,
+        "left": null,
+        "right": null
+      },
+      "right": null
+    }
+  }
+}

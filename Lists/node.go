@@ -51,13 +51,13 @@ func NewListFromFile() (*ListNode, error) {
 }
 
 func (ln *ListNode) Append(d int) {
-	l := NewListNodeFromValue(d)
+	end := NewListNodeFromValue(d)
 	n := ln
 	for n.Next != nil {
 		n = n.Next
 	}
 
-	n.Next = l
+	n.Next = end
 }
 
 func (ln *ListNode) Print() {

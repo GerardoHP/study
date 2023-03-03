@@ -1,6 +1,7 @@
 package Lists
 
 import (
+	"fmt"
 	"study/Interfaces"
 )
 
@@ -11,40 +12,26 @@ var _ Interfaces.Exercise = (*IsListPalindrome)(nil)
 
 func solution(l *ListNode) bool {
 	slow := l
-	for slow != nil {
-		// fmt.Printf("slow: %v \n", slow.Value)
-		fast := slow
+	fast := l
+	i := 0
+	for fast.Next != nil {
+		fast = fast.Next.Next
 		if fast == nil {
-			return true
-		}
-
-		for fast.Next != nil {
-			// fmt.Printf("fast: %v \n", fast.Value)
-
-			if fast.Next.Next == nil {
-				// este el el ultimo para comprara
-				if fast.Next.Value != slow.Value {
-					return false
-				}
-
-				// se elimina
-				fast.Next = nil
-				break
-			}
-
-			if fast.Next.Next.Next == nil {
-				if fast.Next.Next.Value != slow.Value {
-					return false
-				}
-
-				fast.Next.Next = nil
-				break
-			}
-
-			fast = fast.Next.Next
+			break
 		}
 
 		slow = slow.Next
+		i++
+	}
+
+	slowR := reverseList(slow.Next)
+	for l != nil && slowR != nil {
+		if l.Value != slowR.Value {
+			return false
+		}
+
+		l = l.Next
+		slowR = slowR.Next
 	}
 
 	return true
@@ -65,13 +52,11 @@ func reverseList(n *ListNode) *ListNode {
 }
 
 func (IsListPalindrome) Execute() {
-	// arr := []int{0, 1, 2, 1, 0}
+	// arr := []int{0, 1, 0}
 	arr := []int{1, 2, 2, 3}
 	// arr := []int{1, 1000000000, -1000000000, -1000000000, 1000000000, 1}
 	l := NewListNodeFromSlice(arr)
-	l2 := reverseList(l)
-	l2.Print()
 	// l, _ := NewListFromFile()
-	// fmt.Printf("el resultado es %v \n", solution(l))
+	fmt.Printf("el resultado es %v \n", solution(l))
 	//l.Print()
 }
