@@ -6,8 +6,19 @@ import (
 	"study/Interfaces"
 )
 
+type component []int
+
 type SwapLexOrder struct {
 }
+
+var (
+	keys             []int
+	current          int
+	currentComponent *component
+	components       []*component
+	queue            []int
+	visited          map[int]bool
+)
 
 type sortRune []byte
 
@@ -23,78 +34,107 @@ func (s sortRune) Len() int {
 	return len(s)
 }
 
-func (SwapLexOrder) Solution(str string, pairs [][]int) string {
-	indexes := make(map[int][]int)
+func restart() {
+	keys = []int{}
+	current = -1
+	currentComponent = nil
+	components = []*component{}
+	queue = []int{}
+	visited = make(map[int]bool)
+}
+
+func (s *SwapLexOrder) Solution(str string, pairs [][]int) string {
+	restart()
+	edges := make(map[int][]int)
 	for _, pair := range pairs {
 		i := fixRange(pair[0])
 		j := fixRange(pair[1])
-		findAndAdd(indexes, i, j)
-		findAndAdd(indexes, j, i)
+		findAndAdd(edges, i, j)
+		findAndAdd(edges, j, i)
 	}
 
-	var components [][]int
-	for k, v := range indexes {
-		arr := []int{k}
-		arr = append(arr, v...)
-		if len(components) == 0 {
-			components = append(components, arr)
-			continue
+	visited = make(map[int]bool)
+	keys = getKeys(edges)
+	nextRound(edges)
+	visited[current] = true
+	//for i := 0; i < len(keys); i++ {
+	for {
+		for len(queue) > 0 {
+			v, q := shift(queue)
+			queue = q
+			queueUp(edges, v)
+			currentComponent.append(v)
+			keys = removeKey(keys, v)
 		}
 
-		added := false
-		for i := range components {
-			if intersect, intersection := intersects(components[i], arr); intersect {
-				components[i] = append(components[i], intersection...)
-				added = true
-				break
-			}
+		if len(keys) == 0 && len(queue) == 0 {
+			break
 		}
 
-		if !added {
-			components = append(components, arr)
-		}
+		nextRound(edges)
 	}
 
 	max := str
 	for _, v := range components {
-		order := orderKeys(v, str)
+		order := orderKeys(*v, str)
 		max = createString(order, max)
 	}
 
 	return max
 }
 
-func unique(intSlice []int) []int {
-	keys := make(map[int]bool)
-	list := []int{}
-	for _, entry := range intSlice {
-		if _, value := keys[entry]; !value {
-			keys[entry] = true
-			list = append(list, entry)
-		}
+func nextRound(edges map[int][]int) {
+	if len(keys) == 0 {
+		current = -1
+		return
 	}
-	return list
+
+	current, keys = shift(keys)
+	currentComponent = newComponent(current)
+	components = append(components, currentComponent)
+	queueUp(edges, current)
 }
 
-func intersects(arr1, arr2 []int) (bool, []int) {
-	h := make(map[int]bool)
-	for _, v1 := range arr1 {
-		if _, found := h[v1]; !found {
-			h[v1] = true
+func newComponent(i int) *component {
+	n := []int{i}
+	c := component(n)
+	return &c
+}
+
+func shift(slice []int) (int, []int) {
+	first := slice[0]
+	slice = slice[1:]
+	return first, slice
+}
+
+func queueUp(edges map[int][]int, key int) {
+	if values, found := edges[key]; found {
+		for _, value := range values {
+			if _, f := visited[value]; !f {
+				queue = append(queue, value)
+				visited[value] = true
+			}
 		}
 	}
+}
 
-	intersect := false
+func removeKey(keys []int, key int) []int {
 	var r []int
-	for _, v := range arr2 {
-		if _, found := h[v]; found {
-			intersect = true
-		} else {
-			r = append(r, v)
+	for _, k := range keys {
+		if k != key {
+			r = append(r, k)
 		}
 	}
 
-	return intersect, r
+	return r
+}
+
+func getKeys(edges map[int][]int) (keys []int) {
+	for k := range edges {
+		keys = append(keys, k)
+	}
+
+	return
 }
 
 func createString(m map[int]byte, str string) string {
@@ -137,6 +177,20 @@ func findAndAdd(m map[int][]int, key int, value int) map[int][]int {
 
 	m[key] = append(m[key], value)
 	return m
+}
+
+func (c *component) append(v int) {
+	exist := false
+	for _, val := range *c {
+		if v == val {
+			exist = true
+			break
+		}
+	}
+
+	if !exist {
+		*c = append(*c, v)
+	}
 }
 
 func (s SwapLexOrder) Execute() {
