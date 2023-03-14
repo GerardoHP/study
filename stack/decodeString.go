@@ -1,6 +1,7 @@
 package stack
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 	"study/Interfaces"
@@ -26,14 +27,24 @@ func decode(s string) (string, int) {
 	i := 0
 	for ; i < len(s); i++ {
 		str := s[i]
-		switch {
-		case str == '[':
+		switch str {
+		case '[':
 			multiplier, _ := strconv.Atoi(stk.Pop().(string))
 			newString, j := decode(s[i+1:])
 			i = i + j
 			stk.Push(multiplyString(newString, multiplier))
-		case str == ']':
+		case ']':
 			return stk.stackToString(), i + 1
+		case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
+			aux := stk.Pop().(string)
+			_, err := strconv.Atoi(aux)
+			if err != nil {
+				stk.Push(aux)
+				stk.Push(string(str))
+			} else {
+				n := fmt.Sprintf("%v%v", aux, string(str))
+				stk.Push(n)
+			}
 		default:
 			stk.Push(string(str))
 		}
