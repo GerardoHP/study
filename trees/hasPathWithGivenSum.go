@@ -1,14 +1,14 @@
-package Trees
+package trees
 
 import (
 	"fmt"
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 type HasPathWithGivenSum struct {
 }
 
-var _ Interfaces.Exercise = (*HasPathWithGivenSum)(nil)
+var _ interfaces.Exercise = (*HasPathWithGivenSum)(nil)
 
 func solution(t *Tree, s int) bool {
 	// t.InOrderTraversal()

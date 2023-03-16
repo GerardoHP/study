@@ -1,10 +1,10 @@
-package Trees
+package trees
 
-import "study/Interfaces"
+import "study/interfaces"
 
 type DeleteFromBST struct{}
 
-var _ Interfaces.Exercise = (*DeleteFromBST)(nil)
+var _ interfaces.Exercise = (*DeleteFromBST)(nil)
 
 func (DeleteFromBST) Solution(t *Tree, queries []int) *Tree {
 	for _, v := range queries {

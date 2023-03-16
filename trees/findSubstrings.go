@@ -1,8 +1,8 @@
-package Trees
+package trees
 
 import (
 	"fmt"
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 type FindSubstrings struct{}
@@ -112,4 +112,4 @@ func (f FindSubstrings) Execute() {
 	}
 }
 
-var _ Interfaces.Exercise = (*FindSubstrings)(nil)
+var _ interfaces.Exercise = (*FindSubstrings)(nil)

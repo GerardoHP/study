@@ -1,4 +1,4 @@
-package Trees
+package trees
 
 type Node struct {
 	children map[int32]*Node
@@ -45,5 +45,5 @@ func (t Trie) Search(str string) bool {
 
 func GetIndex(r int32) int32 {
 	//return r - int32('A')
-	return r
+	return rgit
 }

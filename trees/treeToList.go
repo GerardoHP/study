@@ -1,14 +1,14 @@
-package Trees
+package trees
 
 import (
 	"fmt"
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 type TreeToList struct {
 }
 
-var _ Interfaces.Exercise = (*TreeToList)(nil)
+var _ interfaces.Exercise = (*TreeToList)(nil)
 var slice []interface{} = make([]interface{}, 1)
 
 func (TreeToList) solution(t *Tree) *Tree {
