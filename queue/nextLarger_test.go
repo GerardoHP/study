@@ -2,6 +2,7 @@ package queue_test
 
 import (
 	"study/queue"
+	"study/utils"
 	"testing"
 )
 
@@ -45,22 +46,8 @@ func testNextLargerSolution(t *testing.T, entry nextLargerEntry) {
 	sln := exercise.Solution(entry.Input)
 
 	// assert
-	if !slicesEqual(sln, entry.Output) {
+	if !utils.SlicesEqual(sln, entry.Output) {
 		t.Errorf("expected %v, found %v in %v \n", entry.Output, sln, entry.Test)
 		t.Fail()
 	}
-}
-
-func slicesEqual(a, b []int) bool {
-	if len(a) != len(b) {
-		return false
-	}
-
-	for i := range a {
-		if a[i] != b[i] {
-			return false
-		}
-	}
-
-	return true
 }
