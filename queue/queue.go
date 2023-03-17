@@ -16,6 +16,10 @@ func NewQueueFromSlice(a []int) *Queue {
 }
 
 func (q *Queue) Dequeue() interface{} {
+	if len(*q) == 0 {
+		return -1
+	}
+	
 	extract := (*q)[0]
 	*q = (*q)[1:]
 	return extract

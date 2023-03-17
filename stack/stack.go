@@ -18,7 +18,7 @@ func (s *Stack) Push(i interface{}) {
 func (s *Stack) Pop() interface{} {
 	l := len(*s) - 1
 	if l == -1 {
-		return ""
+		return -1
 	}
 
 	extract := (*s)[l]
