@@ -1,10 +1,10 @@
 package main
 
 import (
-	interfaces "study/Interfaces"
 	"study/Random"
 	"study/Trees"
 	"study/heaps"
+	interfaces "study/interfaces"
 	"study/lists"
 	"study/queue"
 	"study/stack"

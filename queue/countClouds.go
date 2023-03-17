@@ -1,6 +1,6 @@
 package queue
 
-import "study/Interfaces"
+import "study/interfaces"
 
 type CountClouds struct {
 }
@@ -10,7 +10,7 @@ func (c CountClouds) Execute() {
 	panic("implement me")
 }
 
-var _ Interfaces.Exercise = (*CountClouds)(nil)
+var _ interfaces.Exercise = (*CountClouds)(nil)
 
 func (CountClouds) Solution(skyMap [][]string) int {
 	if len(skyMap) == 0 || len(skyMap[0]) == 0 {

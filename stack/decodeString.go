@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 type DecodeString struct {
 }
 
-var _ Interfaces.Exercise = (*DecodeString)(nil)
+var _ interfaces.Exercise = (*DecodeString)(nil)
 
 func (s DecodeString) Execute() {
 	//TODO implement me

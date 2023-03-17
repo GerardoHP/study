@@ -28,7 +28,7 @@ func (CompanyBotStrategy) solution(trainingData [][]int) float64 {
 	return float64(sum / l)
 }
 
-// Execute implements Interfaces.Exercise
+// Execute implements interfaces.Exercise
 func (c CompanyBotStrategy) Execute() {
 	example := make([][]int, 0)
 	example = append(example, []int{4, -1})

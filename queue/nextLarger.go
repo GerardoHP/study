@@ -1,6 +1,6 @@
 package queue
 
-import "study/Interfaces"
+import "study/interfaces"
 
 type NextLarger struct {
 }
@@ -10,7 +10,7 @@ func (n NextLarger) Execute() {
 	panic("implement me")
 }
 
-var _ Interfaces.Exercise = (*NextLarger)(nil)
+var _ interfaces.Exercise = (*NextLarger)(nil)
 
 func (NextLarger) Solution(a []int) []int {
 	sln := solution(a)

@@ -3,7 +3,7 @@ package hashTables
 import (
 	"sort"
 	"strings"
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 type component []int
@@ -201,4 +201,4 @@ func fixRange(i int) int {
 	return i - 1
 }
 
-var _ Interfaces.Exercise = (*SwapLexOrder)(nil)
+var _ interfaces.Exercise = (*SwapLexOrder)(nil)

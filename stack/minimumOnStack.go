@@ -4,7 +4,7 @@ import (
 	"math"
 	"strconv"
 	"strings"
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 type MinimumOnStack struct{}
@@ -14,7 +14,7 @@ func (m MinimumOnStack) Execute() {
 	panic("implement me")
 }
 
-var _ Interfaces.Exercise = (*MinimumOnStack)(nil)
+var _ interfaces.Exercise = (*MinimumOnStack)(nil)
 
 func (MinimumOnStack) Solution(operations []string) []int {
 	return solution(operations)
