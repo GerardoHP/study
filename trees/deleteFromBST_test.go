@@ -1,4 +1,4 @@
-package Trees_test
+package trees_test
 
 import (
 	"encoding/json"
@@ -10,11 +10,11 @@ import (
 
 type entry struct {
 	Input  DeleteFromBSTInput `json:"input"`
-	Output *Trees.Tree        `json:"output"`
+	Output *trees.Tree        `json:"output"`
 }
 
 type DeleteFromBSTInput struct {
-	T       Trees.Tree `json:"t"`
+	T       trees.Tree `json:"t"`
 	Queries []int      `json:"queries"`
 }
 
@@ -24,7 +24,7 @@ func TestDeleteFromBST_Test1(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	exercise := Trees.DeleteFromBST{}
+	exercise := trees.DeleteFromBST{}
 	input := entry.Input
 	output := entry.Output
 
@@ -43,7 +43,7 @@ func TestDeleteFromBST_Test3(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	exercise := Trees.DeleteFromBST{}
+	exercise := trees.DeleteFromBST{}
 	input := entry.Input
 	output := entry.Output
 
@@ -62,7 +62,7 @@ func TestDeleteFromBST_Test5(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	exercise := Trees.DeleteFromBST{}
+	exercise := trees.DeleteFromBST{}
 	input := entry.Input
 	output := entry.Output
 
@@ -81,7 +81,7 @@ func TestDeleteFromBST_Test9(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	exercise := Trees.DeleteFromBST{}
+	exercise := trees.DeleteFromBST{}
 	input := entry.Input
 	output := entry.Output
 
@@ -94,7 +94,7 @@ func TestDeleteFromBST_Test9(t *testing.T) {
 	}
 }
 
-func compareTrees(t1, t2 *Trees.Tree) bool {
+func compareTrees(t1, t2 *trees.Tree) bool {
 	if t1 == nil || t2 == nil {
 		if t1 == nil && t2 == nil {
 			return true

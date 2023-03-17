@@ -1,8 +1,8 @@
-package Trees
+package trees
 
 import (
 	"fmt"
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 type FindProfession struct {
@@ -15,7 +15,7 @@ const (
 	doctor   profession = "Doctor"
 )
 
-var _ Interfaces.Exercise = (*FindProfession)(nil)
+var _ interfaces.Exercise = (*FindProfession)(nil)
 
 func (FindProfession) solution(level int, pos int) string {
 	return string(getPosition(level, pos))

@@ -1,10 +1,13 @@
 package main
 
 import (
-	"study/Interfaces"
-	"study/Lists"
+	interfaces "study/Interfaces"
 	"study/Random"
 	"study/Trees"
+	"study/heaps"
+	"study/lists"
+	"study/queue"
+	"study/stack"
 )
 
 type ExerciseType int64
@@ -20,31 +23,49 @@ const (
 	restoreBinaryTree
 	companyBotStrategy
 	findSubstrings
+	kthLargestElement
+	countClouds
+	nextLarger
+	decodeString
+	minimumOnStack
+	simplifyPath
 )
 
 var current ExerciseType = ExerciseType(9)
 
 func main() {
-	var exercise Interfaces.Exercise
+	var exercise interfaces.Exercise
 	switch current {
 	case isListPalindrome:
-		exercise = Lists.IsListPalindrome{}
+		exercise = lists.IsListPalindrome{}
 	case hasPathWithGivenSum:
-		exercise = Trees.HasPathWithGivenSum{}
+		exercise = trees.HasPathWithGivenSum{}
 	case isTreeSymmetric:
-		exercise = Trees.IsTreeSymmetric{}
+		exercise = trees.IsTreeSymmetric{}
 	case findProfession:
-		exercise = Trees.FindProfession{}
+		exercise = trees.FindProfession{}
 	case treeToList:
-		exercise = Trees.TreeToList{}
+		exercise = trees.TreeToList{}
 	case isSubTree:
-		exercise = Trees.IsSubTree{}
+		exercise = trees.IsSubTree{}
 	case restoreBinaryTree:
-		exercise = Trees.RestoreBinaryTree{}
+		exercise = trees.RestoreBinaryTree{}
 	case companyBotStrategy:
-		exercise = Random.CompanyBotStrategy{}
+		exercise = random.CompanyBotStrategy{}
 	case findSubstrings:
-		exercise = Trees.FindSubstrings{}
+		exercise = trees.FindSubstrings{}
+	case kthLargestElement:
+		exercise = heaps.KthLargestElement{}
+	case countClouds:
+		exercise = queue.CountClouds{}
+	case nextLarger:
+		exercise = queue.NextLarger{}
+	case decodeString:
+		exercise = stack.DecodeString{}
+	case minimumOnStack:
+		exercise = stack.MinimumOnStack{}
+	case simplifyPath:
+		exercise = stack.SimplifyPath{}
 	default:
 		exercise = nil
 	}

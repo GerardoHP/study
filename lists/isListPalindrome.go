@@ -1,14 +1,14 @@
-package Lists
+package lists
 
 import (
 	"fmt"
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 type IsListPalindrome struct {
 }
 
-var _ Interfaces.Exercise = (*IsListPalindrome)(nil)
+var _ interfaces.Exercise = (*IsListPalindrome)(nil)
 
 func solution(l *ListNode) bool {
 	slow := l

@@ -1,8 +1,8 @@
-package Trees
+package trees
 
 import (
 	"fmt"
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 //
@@ -16,7 +16,7 @@ import (
 type IsSubTree struct {
 }
 
-var _ Interfaces.Exercise = (*IsSubTree)(nil)
+var _ interfaces.Exercise = (*IsSubTree)(nil)
 
 func (IsSubTree) solution(t1 *Tree, t2 *Tree) bool {
 	if t1 == t2 {

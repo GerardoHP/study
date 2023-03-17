@@ -1,14 +1,14 @@
-package Trees
+package trees
 
 import (
 	"fmt"
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 type RestoreBinaryTree struct {
 }
 
-var _ Interfaces.Exercise = (*RestoreBinaryTree)(nil)
+var _ interfaces.Exercise = (*RestoreBinaryTree)(nil)
 
 func (RestoreBinaryTree) solution(inorder []int, preorder []int) *Tree {
 	return solutionRestoreBinaryTree(inorder, preorder)

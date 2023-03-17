@@ -1,14 +1,14 @@
-package Random
+package random
 
 import (
 	"fmt"
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 type CompanyBotStrategy struct {
 }
 
-var _ Interfaces.Exercise = (*CompanyBotStrategy)(nil)
+var _ interfaces.Exercise = (*CompanyBotStrategy)(nil)
 
 func (CompanyBotStrategy) solution(trainingData [][]int) float64 {
 	sum := 0.0

@@ -1,15 +1,15 @@
-package Trees
+package trees
 
 import (
 	"fmt"
 
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 type IsTreeSymmetric struct {
 }
 
-var _ Interfaces.Exercise = (*IsTreeSymmetric)(nil)
+var _ interfaces.Exercise = (*IsTreeSymmetric)(nil)
 
 func (IsTreeSymmetric) solution(t *Tree) bool {
 	return compare(t.Left, t.Right)

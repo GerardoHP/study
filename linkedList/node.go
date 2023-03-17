@@ -1,4 +1,4 @@
-package LinkedList
+package linkedList
 
 type Node struct {
 	Next *Node
