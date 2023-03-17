@@ -29,17 +29,22 @@ func (NearestGreater) Solution(a []int) []int {
 
 func GetLower(left stack.Stack, right Queue, val, index int) int {
 	max := 0
-	for left.IsNotEmpty() {
-		max++
-		if x := left.Pop(); x.(int) > val {
-			return index - max
+	for {
+		if left.IsEmpty() && right.IsEmpty() {
+			break
 		}
-	}
 
-	for right.IsNotEmpty() {
 		max++
-		if x := right.Dequeue(); x.(int) > val {
-			return max
+		if left.IsNotEmpty() {
+			if x := left.Pop(); x.(int) > val {
+				return index - max
+			}
+		}
+
+		if right.IsNotEmpty() {
+			if x := right.Dequeue(); x.(int) > val {
+				return max + index
+			}
 		}
 	}
 
