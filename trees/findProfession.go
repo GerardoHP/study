@@ -48,7 +48,7 @@ func LevelOrderTraversal(t *Tree, position int) profession {
 		node := queue[0]
 		queue = queue[1:]
 
-		if node.isLeaf() {
+		if node.IsLeaf() {
 			i++
 		}
 
