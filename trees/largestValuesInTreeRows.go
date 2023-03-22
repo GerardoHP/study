@@ -1,6 +1,9 @@
 package trees
 
-import "study/interfaces"
+import (
+	"study/interfaces"
+	"study/utils"
+)
 
 type LargestValuesInTreeRows struct {
 }
@@ -27,17 +30,9 @@ func breadthLevel(res *[]int, t *Tree, level int) {
 	if len(*res) == level {
 		*res = append(*res, val)
 	} else {
-		(*res)[level] = maxInt((*res)[level], val)
+		(*res)[level] = utils.MaxInt((*res)[level], val)
 	}
 
 	breadthLevel(res, t.Left, level+1)
 	breadthLevel(res, t.Right, level+1)
-}
-
-func maxInt(a, b int) int {
-	if a > b {
-		return a
-	}
-
-	return b
 }
