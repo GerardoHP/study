@@ -15,7 +15,7 @@ func (DeleteFromBST) Solution(t *Tree, queries []int) *Tree {
 }
 
 func farthestRightValue(t *Tree) *Tree {
-	if t.Right == nil || t.isLeaf() {
+	if t.Right == nil || t.IsLeaf() {
 		return t
 	}
 
@@ -37,7 +37,7 @@ func findAndRemove(t *Tree, find int) *Tree {
 	}
 
 	if t.Value.(float64) == f {
-		if t.isLeaf() {
+		if t.IsLeaf() {
 			t = nil
 			return t
 		}

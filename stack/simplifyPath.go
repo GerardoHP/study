@@ -2,7 +2,7 @@ package stack
 
 import (
 	"strings"
-	"study/Interfaces"
+	"study/interfaces"
 )
 
 type SimplifyPath struct {
@@ -13,7 +13,7 @@ func (s SimplifyPath) Execute() {
 	panic("implement me")
 }
 
-var _ Interfaces.Exercise = (*SimplifyPath)(nil)
+var _ interfaces.Exercise = (*SimplifyPath)(nil)
 
 func (s SimplifyPath) Solution(path string) string {
 	strs := strings.Split(path, "/")

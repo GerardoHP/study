@@ -1,11 +1,11 @@
 package heaps
 
-import "study/Interfaces"
+import "study/interfaces"
 
 type KthLargestElement struct {
 }
 
-var _ Interfaces.Exercise = (*KthLargestElement)(nil)
+var _ interfaces.Exercise = (*KthLargestElement)(nil)
 
 func (KthLargestElement) Solution(nums []int, k int) int {
 	maxHeap := NewMaxHeapFromSlice(nums)

@@ -20,7 +20,7 @@ func solution(t *Tree, s int) bool {
 
 func getSum(t *Tree, num, sum int) bool {
 	if t != nil {
-		if t.isLeaf() {
+		if t.IsLeaf() {
 			return num == (sum + t.Value.(int))
 		}
 
@@ -30,7 +30,7 @@ func getSum(t *Tree, num, sum int) bool {
 	return false
 }
 
-func (t *Tree) isLeaf() bool {
+func (t *Tree) IsLeaf() bool {
 	return t.Left == nil && t.Right == nil
 }
 

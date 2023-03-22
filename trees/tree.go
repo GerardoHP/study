@@ -8,9 +8,10 @@ import (
 )
 
 type Tree struct {
-	Value interface{} `json:"value"`
-	Left  *Tree       `json:"left"`
-	Right *Tree       `json:"right"`
+	Value interface {
+	} `json:"value, int"`
+	Left  *Tree `json:"left"`
+	Right *Tree `json:"right"`
 }
 
 type entry struct {
