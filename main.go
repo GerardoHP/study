@@ -33,6 +33,7 @@ const (
 	largestVaulesInTreeRows
 	digitTreeSum
 	longestPath
+	graphDistances
 )
 
 var current ExerciseType = ExerciseType(9)
@@ -78,7 +79,8 @@ func main() {
 		exercise = trees.DigitTreeSum{}
 	case longestPath:
 		exercise = trees.LongestPath{}
-
+	case graphDistances:
+		exercise = trees.GraphDistances{}
 	default:
 		exercise = nil
 	}
