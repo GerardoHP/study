@@ -29,6 +29,11 @@ const (
 	decodeString
 	minimumOnStack
 	simplifyPath
+	nearestGreater
+	largestVaulesInTreeRows
+	digitTreeSum
+	longestPath
+	graphDistances
 )
 
 var current ExerciseType = ExerciseType(9)
@@ -66,6 +71,16 @@ func main() {
 		exercise = stack.MinimumOnStack{}
 	case simplifyPath:
 		exercise = stack.SimplifyPath{}
+	case nearestGreater:
+		exercise = queue.NearestGreater{}
+	case largestVaulesInTreeRows:
+		exercise = trees.LargestValuesInTreeRows{}
+	case digitTreeSum:
+		exercise = trees.DigitTreeSum{}
+	case longestPath:
+		exercise = trees.LongestPath{}
+	case graphDistances:
+		exercise = trees.GraphDistances{}
 	default:
 		exercise = nil
 	}
