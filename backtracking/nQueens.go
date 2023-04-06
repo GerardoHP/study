@@ -21,10 +21,7 @@ func (NQueens) Solution(n int) [][]int {
 
 func solveNQueens(n int, path []int, paths *[][]int) {
 	if len(path) == n {
-		if pathComplies(path) {
-			*paths = append(*paths, path)
-		}
-
+		*paths = append(*paths, path)
 		return
 	}
 
@@ -32,7 +29,9 @@ func solveNQueens(n int, path []int, paths *[][]int) {
 		newPath := make([]int, len(path))
 		copy(newPath, path)
 		newPath = append(newPath, i+1)
-		solveNQueens(n, newPath, paths)
+		if pathComplies(newPath) {
+			solveNQueens(n, newPath, paths)
+		}
 	}
 }
 
