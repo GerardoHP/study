@@ -47,21 +47,8 @@ func pathComplies(path []int) bool {
 func diagonalComplies(path []int) bool {
 	for i, v := range path {
 		l := len(path)
-		for j := 1; j <= l/2; j++ {
-			next, prev := fixedNextPrev(l, j, i)
-			up, down := fixedValue(l, j, v)
-			// fmt.Println(next, prev, up, down)
-			//if i-j >= 0 && (v+j == path[i-j] || v-j == path[i-j]) {
-			//	return false
-			//}
-			if up == path[prev] || down == path[prev] {
-				return false
-			}
-
-			//if i+j < l && (v+j == path[i+j] || v-j == path[i+j]) {
-			//	return false
-			//}
-			if up == path[next] || down == path[next] {
+		for j := i + 1; j < l; j++ {
+			if v+j-i == path[j] || v-j+i == path[j] {
 				return false
 			}
 		}
