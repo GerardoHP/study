@@ -17,12 +17,18 @@ func (s SumSubsets) Execute() {
 var _ interfaces.Exercise = (*SumSubsets)(nil)
 
 func (SumSubsets) Solution(arr []int, num int) [][]int {
+	if len(arr) == 0 || num == 0 {
+		return [][]int{[]int{}}
+	}
+
 	sums := [][]int{}
-	solveSumSubsets(arr, []int{}, num, &sums)
+	hashes := make(map[string]bool)
+	solveSumSubsets(arr, []int{}, num, &sums, hashes)
+
 	return sums
 }
 
-func solveSumSubsets(arr, sum []int, num int, sums *[][]int) {
+func solveSumSubsets(arr, sum []int, num int, sums *[][]int, hashes map[string]bool) {
 	for k, v := range arr {
 		newSum := make([]int, len(sum))
 		copy(newSum, sum)
@@ -32,41 +38,28 @@ func solveSumSubsets(arr, sum []int, num int, sums *[][]int) {
 		copy(newArr[:k], arr[:k])
 		copy(newArr[k:], arr[k+1:])
 
-		if sumArray(newSum) == num && !exist(newSum, *sums) {
-			*sums = append(*sums, newSum)
+		s, currentHash := sumArray(newSum)
+		if _, found := hashes[currentHash]; found || s >= num {
+			if !found && s == num {
+				hashes[currentHash] = true
+				*sums = append(*sums, newSum)
+			}
+
 			break
 		}
 
-		solveSumSubsets(newArr, newSum, num, sums)
+		solveSumSubsets(newArr, newSum, num, sums, hashes)
 	}
 }
 
-func sumArray(arr []int) int {
+func sumArray(arr []int) (int, string) {
+	sort.Ints(arr)
 	sum := 0
+	str := strings.Builder{}
 	for _, v := range arr {
 		sum += v
-	}
-
-	return sum
-}
-
-func exist(arr []int, arrs [][]int) bool {
-	current := arrHash(arr)
-	for _, v := range arrs {
-		if len(v) == len(arr) && current == arrHash(v) {
-			return true
-		}
-	}
-
-	return false
-}
-
-func arrHash(arr []int) string {
-	str := strings.Builder{}
-	sort.Ints(arr)
-	for _, v := range arr {
 		str.WriteString(strconv.Itoa(v))
 	}
 
-	return str.String()
+	return sum, str.String()
 }
