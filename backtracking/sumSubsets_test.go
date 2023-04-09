@@ -36,7 +36,7 @@ func NewSumsetsEntry(file string) (*SumSubsetsEntry, error) {
 	return &entry, nil
 }
 
-func TestNQueens_Solution_1(t *testing.T) {
+func TestSumSubsets_Solution_1(t *testing.T) {
 	// arrange
 	entry := SumSubsetsEntry{
 		Input: SumSubsetsInput{
@@ -51,7 +51,7 @@ func TestNQueens_Solution_1(t *testing.T) {
 	}
 
 	// act, assert
-	testSumSubsets_Solution(t, entry)
+	testSumSubsetsSolution(t, entry)
 }
 
 func TestSumSubsets_Solution_6(t *testing.T) {
@@ -63,7 +63,7 @@ func TestSumSubsets_Solution_6(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	testSumSubsets_Solution(t, *entry)
+	testSumSubsetsSolution(t, *entry)
 }
 
 func TestSumSubsets_Solution_10(t *testing.T) {
@@ -75,10 +75,10 @@ func TestSumSubsets_Solution_10(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	testSumSubsets_Solution(t, *entry)
+	testSumSubsetsSolution(t, *entry)
 }
 
-func testSumSubsets_Solution(t *testing.T, entry SumSubsetsEntry) {
+func testSumSubsetsSolution(t *testing.T, entry SumSubsetsEntry) {
 	// arrange
 	arr := entry.Input.Arr
 	num := entry.Input.Num
@@ -89,6 +89,10 @@ func testSumSubsets_Solution(t *testing.T, entry SumSubsetsEntry) {
 	sln := exercise.Solution(arr, num)
 
 	// assert
+	if len(sln) != len(r) {
+		t.Fatal()
+	}
+
 	for k := range sln {
 		a := sln[k]
 		b := r[k]

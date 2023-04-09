@@ -1,9 +1,8 @@
 package backtracking
 
 import (
+	"hash/maphash"
 	"sort"
-	"strconv"
-	"strings"
 	"study/interfaces"
 )
 
@@ -22,44 +21,45 @@ func (SumSubsets) Solution(arr []int, num int) [][]int {
 	}
 
 	sums := [][]int{}
-	hashes := make(map[string]bool)
-	solveSumSubsets(arr, []int{}, num, &sums, hashes)
+	hashes := make(map[uint64]bool)
+	solveSumSubsets(arr, []int{}, num, 0, &sums, hashes, maphash.MakeSeed())
 
 	return sums
 }
 
-func solveSumSubsets(arr, sum []int, num int, sums *[][]int, hashes map[string]bool) {
-	for k, v := range arr {
-		newSum := make([]int, len(sum))
-		copy(newSum, sum)
-		newSum = append(newSum, v)
-
-		newArr := make([]int, len(arr)-1)
-		copy(newArr[:k], arr[:k])
-		copy(newArr[k:], arr[k+1:])
-
-		s, currentHash := sumArray(newSum)
-		if _, found := hashes[currentHash]; found || s >= num {
-			if !found && s == num {
-				hashes[currentHash] = true
-				*sums = append(*sums, newSum)
-			}
-
-			break
+func solveSumSubsets(nums, current []int, target int, index int, sums *[][]int, hashes map[uint64]bool, seed maphash.Seed) {
+	if target == 0 {
+		currentHash := getHash(current, seed)
+		if _, found := hashes[currentHash]; !found {
+			temp := make([]int, len(current))
+			copy(temp, current)
+			*sums = append(*sums, temp)
+			hashes[currentHash] = true
 		}
 
-		solveSumSubsets(newArr, newSum, num, sums, hashes)
+		return
 	}
+
+	if index == len(nums) {
+		return
+	}
+
+	if nums[index] <= target {
+		current = append(current, nums[index])
+		solveSumSubsets(nums, current, target-nums[index], index+1, sums, hashes, seed)
+		current = current[:len(current)-1]
+	}
+
+	solveSumSubsets(nums, current, target, index+1, sums, hashes, seed)
 }
 
-func sumArray(arr []int) (int, string) {
+func getHash(arr []int, seed maphash.Seed) uint64 {
+	var hash maphash.Hash
+	hash.SetSeed(seed)
 	sort.Ints(arr)
-	sum := 0
-	str := strings.Builder{}
 	for _, v := range arr {
-		sum += v
-		str.WriteString(strconv.Itoa(v))
+		hash.WriteByte(byte(v))
 	}
 
-	return sum, str.String()
+	return hash.Sum64()
 }
