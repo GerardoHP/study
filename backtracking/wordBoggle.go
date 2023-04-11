@@ -2,6 +2,7 @@ package backtracking
 
 import (
 	"fmt"
+	"strings"
 	"study/interfaces"
 )
 
@@ -22,11 +23,21 @@ var _ interfaces.Exercise = (*WordBoggle)(nil)
 func (WordBoggle) Solution(board [][]string, words []string) []string {
 	result := []string{}
 
-	solveWordBoggle(board, make(map[string]bool), words[0], "", 0, 0)
+	for _, word := range words {
+		if solveWordBoggle(board, make(map[string]bool), word, "", 0, 0) {
+			result = append(result, word)
+		}
+	}
+
 	return result
 }
 
 func solveWordBoggle(board [][]string, visited map[string]bool, word, currentWord string, x, y int) bool {
+	isPrefix := strings.HasPrefix(word, currentWord)
+	if !isPrefix && len(currentWord) > 0 {
+		return false
+	}
+
 	if word == currentWord {
 		return true
 	}
@@ -35,12 +46,26 @@ func solveWordBoggle(board [][]string, visited map[string]bool, word, currentWor
 		return false
 	}
 
-	currentHash := getVertexHash(x, y)
-	visited[currentHash] = true
+	//currentHash := getVertexHash(x, y)
+	//visited[currentHash] = true
 	for i := x; i < len(board); i++ {
 		for j := y; j < len(board[i]); j++ {
-			coordinates := getNeighbors(i, j, len(board[i]), len(board), visited)
-			fmt.Println(i, j, coordinates)
+			neighbors := getNeighbors(i, j, len(board[i]), len(board), visited)
+			for _, neighbor := range neighbors {
+				currentHash := getVertexHash(i, j)
+				visited[currentHash] = true
+				newCurrentWord := fmt.Sprintf("%v%v", currentWord, board[i][j])
+				if solveWordBoggle(board, visited, word, newCurrentWord, neighbor.x, neighbor.y) {
+					return true
+				}
+			}
+			//if x == 0 && y == 0 {
+			//	visited = make(map[string]bool)
+			//}
+		}
+
+		if x == 0 && y == 0 {
+			visited = make(map[string]bool)
 		}
 	}
 
@@ -59,60 +84,36 @@ func getNeighbors(x, y, width, height int, path map[string]bool) []coordinate {
 	nextY := y + 1
 	prevY := y - 1
 
-	if prevX > -1 {
-		coordinates = append(coordinates, coordinate{
-			x: prevX,
-			y: y,
-		})
+	if exist, c := neighborVisited(prevX, y, path); !exist && prevX > -1 {
+		coordinates = append(coordinates, *c)
 	}
 
-	if nextX < height {
-		coordinates = append(coordinates, coordinate{
-			x: nextX,
-			y: y,
-		})
+	if exist, c := neighborVisited(nextX, y, path); !exist && nextX < height {
+		coordinates = append(coordinates, *c)
 	}
 
-	if prevX > -1 && prevY > -1 {
-		coordinates = append(coordinates, coordinate{
-			x: prevX,
-			y: prevY,
-		})
+	if exist, c := neighborVisited(prevX, prevY, path); !exist && prevX > -1 && prevY > -1 {
+		coordinates = append(coordinates, *c)
 	}
 
-	if prevX > -1 && nextY < width {
-		coordinates = append(coordinates, coordinate{
-			x: prevX,
-			y: nextY,
-		})
+	if exist, c := neighborVisited(prevX, nextY, path); !exist && prevX > -1 && nextY < width {
+		coordinates = append(coordinates, *c)
 	}
 
-	if prevY > -1 {
-		coordinates = append(coordinates, coordinate{
-			x: x,
-			y: prevY,
-		})
+	if exist, c := neighborVisited(x, prevY, path); !exist && prevY > -1 {
+		coordinates = append(coordinates, *c)
 	}
 
-	if nextY < width {
-		coordinates = append(coordinates, coordinate{
-			x: x,
-			y: nextY,
-		})
+	if exist, c := neighborVisited(x, nextY, path); !exist && nextY < width {
+		coordinates = append(coordinates, *c)
 	}
 
-	if nextX < height && prevY > -1 {
-		coordinates = append(coordinates, coordinate{
-			x: nextX,
-			y: prevY,
-		})
+	if exist, c := neighborVisited(nextX, prevY, path); !exist && nextX < height && prevY > -1 {
+		coordinates = append(coordinates, *c)
 	}
 
-	if nextX < height && nextY < width {
-		coordinates = append(coordinates, coordinate{
-			x: nextX,
-			y: nextY,
-		})
+	if exist, c := neighborVisited(nextX, nextY, path); !exist && nextX < height && nextY < width {
+		coordinates = append(coordinates, *c)
 	}
 
 	return coordinates
