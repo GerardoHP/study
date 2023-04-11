@@ -2,7 +2,6 @@ package backtracking
 
 import (
 	"fmt"
-	"strings"
 	"study/interfaces"
 )
 
@@ -21,8 +20,7 @@ func (w WordBoggle) Execute() {
 var _ interfaces.Exercise = (*WordBoggle)(nil)
 
 func (WordBoggle) Solution(board [][]string, words []string) []string {
-	result := []string{}
-
+	var result []string
 	initial := make(map[uint8][]coordinate)
 	for x, v := range board {
 		for y, v1 := range v {
@@ -34,26 +32,23 @@ func (WordBoggle) Solution(board [][]string, words []string) []string {
 	for _, word := range words {
 		if coordinates, found := initial[word[0]]; found {
 			for _, c := range coordinates {
-				if solveWordBoggle(board, make(map[string]bool), word, "", c.x, c.y) {
+				var m []coordinate
+				if solveWordBoggle(board, &m, word, "", c.x, c.y) {
 					result = append(result, word)
 					break
 				}
 			}
 		}
-
-		//if solveWordBoggle(board, make(map[string]bool), word, "", 0, 0) {
-		//	result = append(result, word)
-		//}
 	}
 
 	return result
 }
 
-func solveWordBoggle(board [][]string, visited map[string]bool, word, currentWord string, x, y int) bool {
-	isPrefix := strings.HasPrefix(word, currentWord)
-	if !isPrefix && len(currentWord) > 0 {
-		return false
-	}
+func solveWordBoggle(board [][]string, visited *[]coordinate, word, currentWord string, x, y int) bool {
+	//isPrefix := strings.HasPrefix(word, currentWord)
+	//if !isPrefix && len(currentWord) > 0 {
+	//	return false
+	//}
 
 	if word == currentWord {
 		return true
@@ -63,91 +58,75 @@ func solveWordBoggle(board [][]string, visited map[string]bool, word, currentWor
 		return false
 	}
 
-	//currentHash := getVertexHash(x, y)
-	//visited[currentHash] = true
+	*visited = append(*visited, coordinate{x: x, y: y})
 	for i := x; i < len(board); i++ {
 		for j := y; j < len(board[i]); j++ {
-			currentHash := getVertexHash(i, j)
-			visited[currentHash] = true
-			neighbors := getNeighbors(i, j, len(board[i]), len(board), visited)
+			neighbors := getNeighbors(i, j, len(board[i]), len(board), *visited)
 			newCurrentWord := fmt.Sprintf("%v%v", currentWord, board[i][j])
 			for _, neighbor := range neighbors {
-				neighborHash := getVertexHash(i, j)
-				visited[neighborHash] = true
 				if solveWordBoggle(board, visited, word, newCurrentWord, neighbor.x, neighbor.y) {
 					return true
 				}
 			}
-			//if x == 0 && y == 0 {
-			//	visited = make(map[string]bool)
-			//}
 		}
-		//
-		//if x == 0 && y == 0 {
-		//	visited = make(map[string]bool)
-		//}
 	}
 
 	return false
 }
 
-func getVertexHash(x, y int) string {
-	return fmt.Sprintf("%v_%v", x, y)
-}
-
-func getNeighbors(x, y, width, height int, path map[string]bool) []coordinate {
-	coordinates := []coordinate{}
-
+func getNeighbors(x, y, width, height int, visits []coordinate) []coordinate {
+	var coordinates []coordinate
 	nextX := x + 1
 	prevX := x - 1
 	nextY := y + 1
 	prevY := y - 1
 
-	if exist, c := neighborVisited(prevX, y, path); !exist && prevX > -1 {
+	if visited, c := neighborVisited(prevX, y, visits); !visited && prevX > -1 {
 		coordinates = append(coordinates, *c)
 	}
 
-	if exist, c := neighborVisited(nextX, y, path); !exist && nextX < height {
+	if visited, c := neighborVisited(nextX, y, visits); !visited && nextX < height {
 		coordinates = append(coordinates, *c)
 	}
 
-	if exist, c := neighborVisited(prevX, prevY, path); !exist && prevX > -1 && prevY > -1 {
+	if visited, c := neighborVisited(prevX, prevY, visits); !visited && prevX > -1 && prevY > -1 {
 		coordinates = append(coordinates, *c)
 	}
 
-	if exist, c := neighborVisited(prevX, nextY, path); !exist && prevX > -1 && nextY < width {
+	if visited, c := neighborVisited(prevX, nextY, visits); !visited && prevX > -1 && nextY < width {
 		coordinates = append(coordinates, *c)
 	}
 
-	if exist, c := neighborVisited(x, prevY, path); !exist && prevY > -1 {
+	if visited, c := neighborVisited(x, prevY, visits); !visited && prevY > -1 {
 		coordinates = append(coordinates, *c)
 	}
 
-	if exist, c := neighborVisited(x, nextY, path); !exist && nextY < width {
+	if visited, c := neighborVisited(x, nextY, visits); !visited && nextY < width {
 		coordinates = append(coordinates, *c)
 	}
 
-	if exist, c := neighborVisited(nextX, prevY, path); !exist && nextX < height && prevY > -1 {
+	if visited, c := neighborVisited(nextX, prevY, visits); !visited && nextX < height && prevY > -1 {
 		coordinates = append(coordinates, *c)
 	}
 
-	if exist, c := neighborVisited(nextX, nextY, path); !exist && nextX < height && nextY < width {
+	if visited, c := neighborVisited(nextX, nextY, visits); !visited && nextX < height && nextY < width {
 		coordinates = append(coordinates, *c)
 	}
 
 	return coordinates
 }
 
-func neighborVisited(x, y int, path map[string]bool) (bool, *coordinate) {
-	hash := getVertexHash(x, y)
-	if _, found := path[hash]; found {
-		return true, nil
-	} else {
-		c := coordinate{
-			x: x,
-			y: y,
+func neighborVisited(x, y int, visited []coordinate) (bool, *coordinate) {
+	for _, v := range visited {
+		if v.x == x && v.y == y {
+			return true, nil
 		}
-
-		return false, &c
 	}
+
+	c := coordinate{
+		x: x,
+		y: y,
+	}
+
+	return false, &c
 }
