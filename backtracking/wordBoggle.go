@@ -23,10 +23,27 @@ var _ interfaces.Exercise = (*WordBoggle)(nil)
 func (WordBoggle) Solution(board [][]string, words []string) []string {
 	result := []string{}
 
-	for _, word := range words {
-		if solveWordBoggle(board, make(map[string]bool), word, "", 0, 0) {
-			result = append(result, word)
+	initial := make(map[uint8][]coordinate)
+	for x, v := range board {
+		for y, v1 := range v {
+			r := v1[0]
+			initial[r] = append(initial[r], coordinate{x, y})
 		}
+	}
+
+	for _, word := range words {
+		if coordinates, found := initial[word[0]]; found {
+			for _, c := range coordinates {
+				if solveWordBoggle(board, make(map[string]bool), word, "", c.x, c.y) {
+					result = append(result, word)
+					break
+				}
+			}
+		}
+
+		//if solveWordBoggle(board, make(map[string]bool), word, "", 0, 0) {
+		//	result = append(result, word)
+		//}
 	}
 
 	return result
@@ -50,11 +67,13 @@ func solveWordBoggle(board [][]string, visited map[string]bool, word, currentWor
 	//visited[currentHash] = true
 	for i := x; i < len(board); i++ {
 		for j := y; j < len(board[i]); j++ {
+			currentHash := getVertexHash(i, j)
+			visited[currentHash] = true
 			neighbors := getNeighbors(i, j, len(board[i]), len(board), visited)
+			newCurrentWord := fmt.Sprintf("%v%v", currentWord, board[i][j])
 			for _, neighbor := range neighbors {
-				currentHash := getVertexHash(i, j)
-				visited[currentHash] = true
-				newCurrentWord := fmt.Sprintf("%v%v", currentWord, board[i][j])
+				neighborHash := getVertexHash(i, j)
+				visited[neighborHash] = true
 				if solveWordBoggle(board, visited, word, newCurrentWord, neighbor.x, neighbor.y) {
 					return true
 				}
@@ -63,10 +82,10 @@ func solveWordBoggle(board [][]string, visited map[string]bool, word, currentWor
 			//	visited = make(map[string]bool)
 			//}
 		}
-
-		if x == 0 && y == 0 {
-			visited = make(map[string]bool)
-		}
+		//
+		//if x == 0 && y == 0 {
+		//	visited = make(map[string]bool)
+		//}
 	}
 
 	return false
