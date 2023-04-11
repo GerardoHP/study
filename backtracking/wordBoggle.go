@@ -2,6 +2,8 @@ package backtracking
 
 import (
 	"fmt"
+	"sort"
+	"strings"
 	"study/interfaces"
 )
 
@@ -20,7 +22,7 @@ func (w WordBoggle) Execute() {
 var _ interfaces.Exercise = (*WordBoggle)(nil)
 
 func (WordBoggle) Solution(board [][]string, words []string) []string {
-	var result []string
+	result := []string{}
 	initial := make(map[uint8][]coordinate)
 	for x, v := range board {
 		for y, v1 := range v {
@@ -33,7 +35,7 @@ func (WordBoggle) Solution(board [][]string, words []string) []string {
 		if coordinates, found := initial[word[0]]; found {
 			for _, c := range coordinates {
 				var m []coordinate
-				if solveWordBoggle(board, &m, word, "", c.x, c.y) {
+				if solveWordBoggle(board, m, word, "", c.x, c.y) {
 					result = append(result, word)
 					break
 				}
@@ -41,28 +43,28 @@ func (WordBoggle) Solution(board [][]string, words []string) []string {
 		}
 	}
 
+	sort.Strings(result)
 	return result
 }
 
-func solveWordBoggle(board [][]string, visited *[]coordinate, word, currentWord string, x, y int) bool {
-	//isPrefix := strings.HasPrefix(word, currentWord)
-	//if !isPrefix && len(currentWord) > 0 {
-	//	return false
-	//}
-
-	if word == currentWord {
-		return true
-	}
-
-	if len(word) == len(currentWord) {
-		return false
-	}
-
-	*visited = append(*visited, coordinate{x: x, y: y})
+func solveWordBoggle(board [][]string, visited []coordinate, word, currentWord string, x, y int) bool {
+	visited = append(visited, coordinate{x: x, y: y})
 	for i := x; i < len(board); i++ {
 		for j := y; j < len(board[i]); j++ {
-			neighbors := getNeighbors(i, j, len(board[i]), len(board), *visited)
+			neighbors := getNeighbors(i, j, len(board[i]), len(board), visited)
 			newCurrentWord := fmt.Sprintf("%v%v", currentWord, board[i][j])
+			isPrefix := strings.HasPrefix(word, newCurrentWord)
+			if !isPrefix && len(newCurrentWord) > 0 {
+				return false
+			}
+			if newCurrentWord == word {
+				return true
+			}
+
+			if len(word) == len(newCurrentWord) {
+				return false
+			}
+
 			for _, neighbor := range neighbors {
 				if solveWordBoggle(board, visited, word, newCurrentWord, neighbor.x, neighbor.y) {
 					return true
