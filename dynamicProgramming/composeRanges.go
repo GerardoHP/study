@@ -17,27 +17,30 @@ func (ComposeRanges) Solution(nums []int) []string {
 		return []string{strconv.Itoa(nums[0])}
 	}
 
-	solve([]int{}, nums, &r)
+	solve(nums, &r)
 	return r
 }
 
-func solve(current, missing []int, r *[]string) {
-	lC := len(current)
-	if lC != 0 && current[lC-1]+1 != missing[0] {
-		*r = append(*r, sliceToRange(current))
-		solve([]int{}, missing, r)
+func solve(nums []int, r *[]string) {
+	if len(nums) == 1 {
+		*r = append(*r, strconv.Itoa(nums[0]))
 		return
 	}
 
-	if len(missing) == 1 {
-		*r = append(*r, strconv.Itoa(missing[0]))
-		return
+	c := 0
+	x := []int{}
+	for k, v := range nums {
+		x = append(x, v)
+		if l := len(nums); k+1 < l && v+1 != nums[k+1] {
+			c = k
+			break
+		}
 	}
 
-	m := missing[0]
-	newMissing := missing[1:]
-	newCurrent := append(current, m)
-	solve(newCurrent, newMissing, r)
+	*r = append(*r, sliceToRange(x))
+	if c != 0 {
+		solve(nums[c+1:], r)
+	}
 }
 
 func sliceToRange(s []int) string {

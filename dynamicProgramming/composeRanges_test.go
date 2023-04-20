@@ -15,6 +15,15 @@ func TestComposeRanges_Solution_1(t *testing.T) {
 	testComposeRangesSolution(t, input, output, "test 1")
 }
 
+func TestComposeRanges_Solution_6(t *testing.T) {
+	// arrange
+	input := []int{0, 1}
+	output := []string{"0->1"}
+
+	// act, assert
+	testComposeRangesSolution(t, input, output, "test 1")
+}
+
 func testComposeRangesSolution(t *testing.T, input []int, output []string, test string) {
 	// act
 	exercise := dynamicProgramming.ComposeRanges{}
