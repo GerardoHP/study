@@ -2,8 +2,9 @@ package dynamicProgramming
 
 import (
 	"fmt"
-	"math"
 )
+
+var m = make(map[int]int)
 
 func Execute() {
 	x := solution(5)
@@ -12,50 +13,22 @@ func Execute() {
 	fmt.Println(y)
 }
 
-var (
-	allPaths   = make(map[int][][]int)
-	currentMax = math.MinInt
-)
-
 func solution(n int) int {
-	path := []int{}
-	paths := new([][]int)
-	s := 0
-	if _, found := allPaths[currentMax]; found && n > currentMax {
-		s = currentMax
+	result := 0
+
+	if n == 1 {
+		return 1
 	}
 
-	if s == 0 {
-		solve(s, n, []int{1, 2}, path, paths)
-	} else {
-		for _, p := range allPaths[currentMax] {
-			solve(s, n, []int{1, 2}, p, paths)
-		}
+	if n == 2 {
+		return 2
 	}
 
-	allPaths[n] = *paths
-	if n > currentMax {
-		currentMax = n
+	if r, found := m[n]; found {
+		return r
 	}
 
-	return len(*paths)
-}
-
-func solve(s, n int, comb, path []int, paths *[][]int) {
-	if s >= n {
-		if s == n {
-			*paths = append(*paths, path)
-		}
-
-		return
-	}
-
-	for _, v := range comb {
-		newPath := make([]int, len(path))
-		newPath = append(path, v)
-
-		if s+v <= n {
-			solve(s+v, n, comb, newPath, paths)
-		}
-	}
+	result = solution(n-1) + solution(n-2)
+	m[n] = result
+	return result
 }
