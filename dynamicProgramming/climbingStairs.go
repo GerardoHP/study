@@ -6,9 +6,9 @@ import (
 )
 
 func Execute() {
-	//x := solution(5)
+	x := solution(5)
 	y := solution(10)
-	//fmt.Println(x)
+	fmt.Println(x)
 	fmt.Println(y)
 }
 
@@ -21,16 +21,18 @@ func solution(n int) int {
 	path := []int{}
 	paths := new([][]int)
 	s := 0
-	if p2, found := allPaths[currentMax]; found && n > currentMax {
-		p := p2[0]
-		for _, v := range p {
-			path = append(path, v)
-		}
-
+	if _, found := allPaths[currentMax]; found && n > currentMax {
 		s = currentMax
 	}
 
-	solve(s, n, []int{1, 2}, path, paths)
+	if s == 0 {
+		solve(s, n, []int{1, 2}, path, paths)
+	} else {
+		for _, p := range allPaths[currentMax] {
+			solve(s, n, []int{1, 2}, p, paths)
+		}
+	}
+
 	allPaths[n] = *paths
 	if n > currentMax {
 		currentMax = n
@@ -56,12 +58,4 @@ func solve(s, n int, comb, path []int, paths *[][]int) {
 			solve(s+v, n, comb, newPath, paths)
 		}
 	}
-}
-
-func sum(a []int) int {
-	if len(a) == 0 {
-		return 0
-	}
-
-	return a[0] + sum(a[1:])
 }
