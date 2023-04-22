@@ -9,41 +9,27 @@ type ComposeRanges struct{}
 
 func (ComposeRanges) Solution(nums []int) []string {
 	r := []string{}
-	if len(nums) == 0 {
-		return []string{}
-	}
 
-	if len(nums) == 1 {
-		return []string{strconv.Itoa(nums[0])}
-	}
-
-	solve(nums, &r)
+	r = solve(nums)
 	return r
 }
 
-func solve(nums []int, r *[]string) {
-	if len(nums) == 1 {
-		*r = append(*r, strconv.Itoa(nums[0]))
-		return
-	}
-
-	c := 0
-	x := []int{}
-	for k, v := range nums {
-		x = append(x, v)
-		if l := len(nums); k+1 < l && v+1 != nums[k+1] {
-			c = k
-			break
+func solve(nums []int) []string {
+	r := []string{}
+	for i := 0; i < len(nums); i++ {
+		start := nums[i]
+		for i+1 < len(nums) && nums[i]+1 == nums[i+1] {
+			i++
 		}
+
+		end := nums[i]
+		rangeStr := strconv.Itoa(start)
+		if start != end {
+			rangeStr = fmt.Sprintf("%v->%v", start, end)
+		}
+
+		r = append(r, rangeStr)
 	}
 
-	*r = append(*r, sliceToRange(x))
-	if c != 0 {
-		solve(nums[c+1:], r)
-	}
-}
-
-func sliceToRange(s []int) string {
-	l := len(s)
-	return fmt.Sprintf("%v->%v", s[0], s[l-1])
+	return r
 }

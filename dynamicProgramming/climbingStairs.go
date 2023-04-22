@@ -1,19 +1,10 @@
 package dynamicProgramming
 
-import (
-	"fmt"
-)
+type ClimbingStairs struct{}
 
 var m = make(map[int]int)
 
-func Execute() {
-	x := solution(5)
-	y := solution(10)
-	fmt.Println(x)
-	fmt.Println(y)
-}
-
-func solution(n int) int {
+func (c ClimbingStairs) Solution(n int) int {
 	result := 0
 
 	if n == 1 {
@@ -28,7 +19,7 @@ func solution(n int) int {
 		return r
 	}
 
-	result = solution(n-1) + solution(n-2)
+	result = c.Solution(n-1) + c.Solution(n-2)
 	m[n] = result
 	return result
 }
